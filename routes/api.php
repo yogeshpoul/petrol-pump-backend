@@ -143,8 +143,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/staff/{id}',   [StaffController::class, 'destroy']);
 });
 
-use Illuminate\Support\Facades\DB;
-
 Route::get('/debug', function () {
     try {
         DB::connection()->getPdo();
