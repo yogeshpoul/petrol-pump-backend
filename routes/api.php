@@ -9,8 +9,26 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\DB;
+
 Route::get('/ping', function () {
-    return response()->json(['message' => 'pong']);
+    try {
+        DB::connection()->getPdo();
+
+        return response()->json([
+            'status' => 'Connected',
+            'host' => config('database.connections.mysql.host'),
+            'database' => config('database.connections.mysql.database'),
+            'username' => config('database.connections.mysql.username'),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'exception' => get_class($e),
+            'host' => config('database.connections.mysql.host'),
+            'database' => config('database.connections.mysql.database'),
+        ], 500);
+    }
 });
 
 // -------------------------------------------------
