@@ -49,6 +49,10 @@ Route::get('/ping2', function () {
     }
 });
 
+Route::get('/tables', function () {
+    return \Illuminate\Support\Facades\DB::select("SHOW TABLES");
+});
+
 // -------------------------------------------------
 // Admin routes
 // -------------------------------------------------
