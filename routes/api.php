@@ -120,3 +120,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/staff/{id}',      [StaffController::class, 'update']);
     Route::delete('/staff/{id}',   [StaffController::class, 'destroy']);
 });
+
+use Illuminate\Support\Facades\DB;
+
+Route::get('/debug', function () {
+    try {
+        DB::connection()->getPdo();
+
+        return response()->json([
+            'status' => 'Connected',
+            'host' => config('database.connections.mysql.host'),
+            'database' => config('database.connections.mysql.database'),
+            'user' => config('database.connections.mysql.username'),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'type' => get_class($e),
+        ], 500);
+    }
+});
