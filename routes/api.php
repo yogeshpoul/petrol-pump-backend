@@ -31,6 +31,24 @@ Route::get('/ping', function () {
     }
 });
 
+use App\Models\User;
+
+Route::get('/ping2', function () {
+    try {
+        return [
+            "count" => User::count(),
+            "first" => User::first()
+        ];
+    } catch (\Throwable $e) {
+        return [
+            "message" => $e->getMessage(),
+            "file" => $e->getFile(),
+            "line" => $e->getLine(),
+            "trace" => $e->getTraceAsString()
+        ];
+    }
+});
+
 // -------------------------------------------------
 // Admin routes
 // -------------------------------------------------
